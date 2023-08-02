@@ -1,0 +1,47 @@
+h1 Sample Data
+= form_tag people_search_path, method: :get do
+  .row-fluid style='padding-top:15px'
+    = text_field_tag :first_name, params[:first_name], placeholder: 'First Name', class: 'span2'
+    = text_field_tag :last_name, params[:last_name], placeholder: 'Last Name', class: 'span2'
+    = text_field_tag :species, params[:species], placeholder: 'Species', class: 'span2'
+    = text_field_tag :gender, params[:gender], placeholder: 'Gender', class: 'span2'
+    = text_field_tag :weapon, params[:weapon], placeholder: 'Weapon', class: 'span2'
+    = text_field_tag :vehicle, params[:vehicle], placeholder: 'Vehicle', class: 'span2'
+    = submit_tag 'Search', class: 'btn span2', style: 'margin-top:-11px;'
+table
+  tr
+    th = link_to "First Name", people_path(sort_by: "first_name")
+    th = link_to "Last Name", people_path(sort_by: "last_name")
+    th = link_to "Locations", people_path(sort_by: "location_name")
+    th = link_to "Species", people_path(sort_by: "species")
+    th = link_to "Gender", people_path(sort_by: "gender")
+    th = link_to "Affiliations", people_path(sort_by: "affiliation_name")
+    th = link_to "Weapon", people_path(sort_by: "weapon")
+    th = link_to "Vehicle", people_path(sort_by: "vehicle")
+
+  - @people.each do |person|
+    tr
+      td
+        = person.first_name
+      td
+        = person.last_name
+      td
+        - person.locations.each do |location|
+          = location.location_name 
+      td
+        = person.species
+      td
+        = person.gender
+      td
+        - person.affiliations.each do |affiliation|
+          = affiliation.affiliation_name
+      td
+        = person.weapon
+      td
+        = person.vehicle
+
+.row-fluid.pagination
+  .page_info
+    = page_entries_info @people
+
+  = will_paginate @people, container: false
