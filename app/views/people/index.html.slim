@@ -19,22 +19,20 @@ table
     th = link_to "Weapon", people_path(sort_by: "weapon")
     th = link_to "Vehicle", people_path(sort_by: "vehicle")
 
-  - @people.each do |person|
+  - @people.zip(@locations, @affiliations).each do |person, location, affiliation|
     tr
       td
         = person.first_name
       td
         = person.last_name
       td
-        - person.locations.each do |location|
-          = location.location_name 
+        = location
       td
         = person.species
       td
         = person.gender
       td
-        - person.affiliations.each do |affiliation|
-          = affiliation.affiliation_name
+        = affiliation
       td
         = person.weapon
       td
